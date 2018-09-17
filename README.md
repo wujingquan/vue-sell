@@ -25,4 +25,4 @@ yarn run lint
 
 ## 上线部署
 
-[https://vue-sell.ziz.me](https://vue-sell.ziz.me)
+https://github.com/wujingquan/koa-sell
