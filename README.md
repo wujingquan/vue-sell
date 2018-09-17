@@ -1,6 +1,7 @@
 # vue-sell
 
 ## Project setup
+
 ```
 yarn install
 ```
@@ -19,3 +20,9 @@ yarn run build
 ```
 yarn run lint
 ```
+
+
+
+## 上线部署
+
+[https://vue-sell.ziz.me](https://vue-sell.ziz.me)
