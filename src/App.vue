@@ -21,30 +21,28 @@
 
 <script>
 import VHeader from './components/header/header'
-import axios from 'axios'
-import { urlParse } from 'common/js/util'
-
-const ERR_OK = 0
+import { getSeller } from 'api'
 
 export default {
   name: 'app',
   data () {
     return {
       seller: {
-        id: (() => {
-          let queryParam = urlParse()
-          return queryParam.id
-        })()
+        id: 0
       }
     }
   },
   created () {
-    axios.get('/api/seller')
-      .then(res => {
-        if (res.data.errno === ERR_OK) {
-          this.seller = res.data.data
-        }
+    this._getSeller()
+  },
+  methods: {
+    _getSeller () {
+      getSeller({
+        id: this.seller.id
+      }).then(seller => {
+        this.seller = Object.assign({}, this.seller, seller)
       })
+    }
   },
   components: {
     VHeader
