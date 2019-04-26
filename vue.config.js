@@ -12,6 +12,7 @@ module.exports = {
       .set('components', resolve('src/components'))
       .set('common', resolve('src/common'))
   },
+
   devServer: {
     before (app) {
       app
@@ -33,6 +34,24 @@ module.exports = {
             data: ratings
           })
         })
+    }
+  },
+
+  css: {
+    loaderOptions: {
+      stylus: {
+        'resolve url': true,
+        'import': [
+          './src/theme'
+        ]
+      }
+    }
+  },
+
+  pluginOptions: {
+    'cube-ui': {
+      postCompile: true,
+      theme: true
     }
   }
 }
