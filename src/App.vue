@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import VHeader from 'components/header/header'
+import VHeader from 'components/v-header/v-header'
 import { getSeller } from 'api'
 
 export default {

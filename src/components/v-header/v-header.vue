@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="showDetail">
     <div class="content-wrapper">
       <div class="avatar">
         <img :src="seller.avatar" width="64" height="64">
@@ -41,13 +41,32 @@
 import SupportIco from 'components/support-ico/support-ico'
 
 export default {
+  name: 'v-header',
   props: {
     seller: {
       type: Object
     }
   },
+  methods: {
+    showDetail () {
+      console.log('debug 0')
+      this.headerDetailComp = this.headerDetailComp || this.$createHeaderDetail({
+        $props: {
+          seller: 'seller'
+        }
+      })
+      console.log('debug 1')
+      this.headerDetailComp.show()
+      console.log('debug 2')
+    }
+  },
   components: {
     SupportIco
+  },
+  watch: {
+    seller () {
+      this.showDetail()
+    }
   }
 }
 </script>
