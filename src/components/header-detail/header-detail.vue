@@ -1,6 +1,7 @@
 <template>
   <transition name="fade">
-    <div class="header-detail" v-if="visible" @click="hide">
+    <!-- <div class="header-detail" v-show="visible" @click="hide" @touchmove.stop.prevent> -->
+      <div class="header-detail" v-show="visible" @click="hide">
       <div class="detail-wrapper clear-fix">
         <div class="detail-main">
           <h1 class="name">{{ seller.name }}</h1>
@@ -74,7 +75,7 @@ export default {
   left 0
   right 0
   bottom 0
-  overflow hidden
+  overflow auto
   backdrop-filter blur(10px)
   opacity 1
   color $color-white

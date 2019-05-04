@@ -48,9 +48,10 @@ export default {
 @import '../../common/stylus/mixin'
 
 .star
-  font-size 0
+  display flex
+  align-items center
+  justify-content center
   .star-item
-    display inline-block
     background-repeat no-repeat
   &.star-48
     .star-item

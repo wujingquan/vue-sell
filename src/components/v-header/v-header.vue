@@ -49,24 +49,16 @@ export default {
   },
   methods: {
     showDetail () {
-      console.log('debug 0')
       this.headerDetailComp = this.headerDetailComp || this.$createHeaderDetail({
         $props: {
           seller: 'seller'
         }
       })
-      console.log('debug 1')
       this.headerDetailComp.show()
-      console.log('debug 2')
     }
   },
   components: {
     SupportIco
-  },
-  watch: {
-    seller () {
-      this.showDetail()
-    }
   }
 }
 </script>
