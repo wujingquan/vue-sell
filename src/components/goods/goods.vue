@@ -6,6 +6,28 @@
         :side=true
         :data="goods"
       >
+        <template v-slot:bar="props">
+          <cube-scroll-nav-bar
+            direction="vertical"
+            :labels="props.labels"
+            :txts="barTxts"
+            :current="props.current"
+          >
+            <template v-slot="props">
+              <div class="text">
+                <support-ico
+                  v-if="props.txt.type >= 1"
+                  :size=3
+                  :type="props.txt.type"
+                ></support-ico>
+                <span>{{ props.txt.name }}</span>
+                <span class="num" v-if="props.txt.count">
+                  <bubble :num="props.txt.count"></bubble>
+                </span>
+              </div>
+            </template>
+          </cube-scroll-nav-bar>
+        </template>
         <cube-scroll-nav-panel
           v-for="good in goods"
           :key="good.name"
@@ -24,6 +46,16 @@
               <div class="content">
                 <h2 class="name">{{ food.name }}</h2>
                 <p class="desc">{{ food.description }}</p>
+                <div class="extra">
+                  <span class="count">月售{{ food.sellCount }}份</span><span>好评率{{ food.rating }}%</span>
+                </div>
+                <div class="price">
+                  <span class="now">&yen;{{ food.price }}</span>
+                  <span class="old" v-show="food.oldPrice">&yen;{{ food.oldPrice }}</span>
+                </div>
+                <div class="cart-control-wrapper">
+                  cart
+                </div>
               </div>
             </li>
           </ul>
@@ -35,6 +67,8 @@
 
 <script>
 import { getGoods } from 'api'
+import SupportIco from 'components/support-ico/support-ico'
+import Bubble from 'components/bubble/bubble'
 
 export default {
   props: {
@@ -53,6 +87,22 @@ export default {
   computed: {
     seller () {
       return this.data.seller
+    },
+    barTxts () {
+      let ret = []
+      this.goods.forEach(good => {
+        const { type, name, foods } = good
+        let count = 0
+        foods.forEach(food => {
+          count += food.count || 0
+        })
+        ret.push({
+          type,
+          name,
+          count
+        })
+      })
+      return ret
     }
   },
   methods: {
@@ -66,6 +116,10 @@ export default {
         })
       }
     }
+  },
+  components: {
+    SupportIco,
+    Bubble
   }
 }
 </script>
@@ -97,4 +151,66 @@ export default {
       background $color-background-ssss
       .text
         flex 1
+        position relative
+        .num
+          position absolute
+          right -8px
+          top -10px
+        .support-ico
+          display inline-block
+          vertical-align top
+          margin-right 4px
+    >>> .cube-scroll-nav-bar-item_active
+      background $color-white
+      color $color-dark-grey
+    >>> .cube-scroll-nav-panel-title
+      padding-left 14px
+      height 26px
+      line-height 26px
+      border-left 2px solid $color-col-line
+      font-size $fontsize-small
+      color $color-grey
+      background $color-background-ssss
+    .food-item
+      display flex
+      margin 18px
+      padding-bottom 18px
+      position relative
+      &:last-child
+        border-none()
+        margin-bottom 0
+      .icon
+        flex 0 0 57px
+        margin-right 10px
+        img
+          height auto
+      .content
+        flex 1
+        .name
+          margin 2px 0 8px 0
+          height 14px
+          line-height 14px
+          font-size $fontsize-medium
+          color $color-dark-grey
+        .desc, .extra
+          line-height 10px
+          font-size $fontsize-small-s
+          color $color-light-grey
+        .desc
+          line-height 12px
+          margin-bottom 8px
+        .extra
+          .count
+            margin-right 12px
+        .price
+          font-weight 700
+          line-height 24px
+          .now
+            margin-right 8px
+            font-size $fontsize-medium
+            color $color-red
+          .old
+            text-decoration line-through
+            font-size $fontsize-small-s
+            color $color-light-grey
 </style>
