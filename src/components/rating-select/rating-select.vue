@@ -1,6 +1,6 @@
 <template>
-  <div class="ratingselect">
-    <div class="rating-type border-1px">
+  <div class="rating-select">
+    <div class="rating-type border-bottom-1px">
       <div @click="select(2)" class="block positive" :class="{'active': selectType === 2}">
         {{ desc.all }}<span class="count">{{ ratings.length }}</span>
       </div>
@@ -19,9 +19,12 @@
 </template>
 
 <script>
-  const POSITIVE = 0
-  const NEGATIVE = 1
-  const ALL = 2
+const POSITIVE = 0
+const NEGATIVE = 1
+const ALL = 2
+
+const EVENT_TOGGLE = 'toggle'
+const EVENT_SELECT = 'select'
 
 export default {
   props: {
@@ -60,10 +63,10 @@ export default {
   },
   methods: {
     select (type) {
-      this.$emit('select', type)
+      this.$emit(EVENT_SELECT, type)
     },
     toggleContent () {
-      this.$emit('toggle')
+      this.$emit(EVENT_TOGGLE)
     }
   }
 }
@@ -71,50 +74,44 @@ export default {
 
 
 <style lang="stylus" scoped>
-@import '../../common/stylus/mixin'
+@import '~common/stylus/variable'
 
-.ratingselect
+.rating-select
   .rating-type
     padding 18px 0
     margin 0 18px
-    border-1px(rgba(7, 17, 27, 0.1))
-    font-size 0
     .block
       display inline-block
       padding 8px 12px
       margin-right 8px
       line-height 16px
       border-radius 1px
-      font-size 12px
-      color rgb(77, 85, 93)
+      font-size $fontsize-small
+      color $color-grey
       &.active
-        color #fff
-      .count
+        color $color-white
+      &.count
         margin-left 2px
       &.positive
-        background rgba(0, 160, 220, 0.2)
+        background $color-light-blue
         &.active
-          background rgb(0, 160, 220)
+          background $color-blue
       &.negative
-        background rgba(77, 85, 93, 0.2)
+        background $color-light-grey-s
         &.active
-          background rgb(77, 85, 93)
+          background $color-grey
   .switch
+    display flex
+    align-items center
     padding 12px 18px
     line-height 24px
-    border-bottom 1px solid rgba(7, 17, 27, 0.1)
-    color rgb(147, 153, 159)
-    font-size 0
+    border-bottom 1px solid $color-row-line
     &.on
       .icon-check_circle
-        color #00c850
+        color $color-green
     .icon-check_circle
-      display inline-block
-      vertical-align top
       margin-right 4px
-      font-size 24px
+      font-size $fontsize-large-xxx
     .text
-      display inline-block
-      vertical-align top
-      font-size 12px
+      font-size $fontsize-small
 </style>
