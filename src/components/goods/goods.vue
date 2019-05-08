@@ -54,7 +54,7 @@
                   <span class="old" v-show="food.oldPrice">&yen;{{ food.oldPrice }}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  cart
+                  <cart-control :food="food"></cart-control>
                 </div>
               </div>
             </li>
@@ -69,6 +69,7 @@
 import { getGoods } from 'api'
 import SupportIco from 'components/support-ico/support-ico'
 import Bubble from 'components/bubble/bubble'
+import CartControl from 'components/cart-controll/cart-controll'
 
 export default {
   props: {
@@ -119,7 +120,8 @@ export default {
   },
   components: {
     SupportIco,
-    Bubble
+    Bubble,
+    CartControl
   }
 }
 </script>
