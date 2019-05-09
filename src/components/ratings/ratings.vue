@@ -38,7 +38,29 @@
           <li
             class="rating-item border-bottom-1px"
             v-for="(rating, index) in computedRatings"
-          ></li>
+            :key="index"
+          >
+            <div class="avatar">
+              <img width="28" height="28" :src="rating.avatar">
+            </div>
+            <div class="content">
+              <h1 class="name">{{ rating.username }}</h1>
+              <div class="star-wrapper">
+                <star :size=24 :score="rating.score"></star>
+                <span class="delivery" v-if="rating.deliveryTime">
+                  {{ rating.deliveryTime }}
+                </span>
+              </div>
+              <p class="text">{{ rating.text }}</p>
+              <div class="recommend" v-if="rating.recommend && rating.recommend.length">
+                <span class="icon-thumb_up"></span>
+                <span class="item" v-for="(item, index) in rating.recommend" :key="index">{{ item }}</span>
+              </div>
+              <div class="time">
+                {{ rating.rateTime }}
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -73,6 +95,18 @@ export default {
   computed: {
     seller () {
       return this.data.seller || {}
+    },
+    computedRatings () {
+      let ret = []
+      this.ratings.forEach(rating => {
+        if (this.onlyContent && !rating.text) {
+          return
+        }
+        if (this.selectType === ALL || rating.rateType === this.selectType) {
+          ret.push(rating)
+        }
+      })
+      return ret
     }
   },
   methods: {
@@ -163,6 +197,65 @@ export default {
           color $color-dark-grey
         .delivery
           margin-left 12px
+          font-size $fontsize-small
+          color $color-light-grey
+  .rating-wrapper
+    padding 0 18px
+    .rating-item
+      display flex
+      padding 18px 0
+      &:last-of-type
+        border-none()
+      .avatar
+        flex 0 0 28px
+        width 28px
+        margin-right 12px
+        img
+          height auto
+          border-radius 50%
+      .content
+        position relative
+        flex 1
+        .name
+          margin-bottom 4px
+          line-height 12px
+          font-size $fontsize-small-s
+          color $color-dark-grey
+        .star-wrapper
+          margin-bottom 6px
+          display flex
+          align-items center
+          .star
+            margin-right 6px
+          .delivery
+            font-size $fontsize-small-s
+            color $color-light-grey
+        .text
+          margin-bottom 8px
+          line-height 18px
+          color $color-dark-grey
+          font-size $fontsize-small
+        .recommend
+          display flex
+          align-items center
+          flex-wrap wrap 
+          line-height 16px
+          .icon-thumb_up, .item
+            margin 0 8px 4px 0
+            font-size $fontsize-small-s
+          .icon-thumb_up
+            color $color-blue
+          .item
+            padding 0 6px
+            border 1px solid $color-row-line
+            border-radius 1px
+            color $color-light-grey
+            background $color-white
+        .time
+          position absolute
+          top 0
+          right 0
+          line-height 12px
           font-size $fontsize-small
           color $color-light-grey
 </style>
