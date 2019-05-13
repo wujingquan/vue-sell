@@ -137,6 +137,7 @@ export default {
 
 <style lang="stylus">
 @import '~common/stylus/variable'
+@import '~common/stylus/mixin'
 
 .ratings-content
   position relative
@@ -205,6 +206,9 @@ export default {
       display flex
       padding 18px 0
       &:last-of-type
+        // border-none()
+        // height 100px
+        // background red
         border-none()
       .avatar
         flex 0 0 28px

@@ -5,6 +5,7 @@
         v-if="goods.length"
         :side=true
         :data="goods"
+        :options="scrollOptions"
       >
         <template v-slot:bar="props">
           <cube-scroll-nav-bar
@@ -54,13 +55,21 @@
                   <span class="old" v-show="food.oldPrice">&yen;{{ food.oldPrice }}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  <cart-control :food="food"></cart-control>
+                  <cart-control @add="onAdd" :food="food"></cart-control>
                 </div>
               </div>
             </li>
           </ul>
         </cube-scroll-nav-panel>
       </cube-scroll-nav>
+    </div>
+    <div class="shop-cart-wrapper">
+      <shop-cart
+        ref="shopCart"
+        :selectFoods="selectFoods"
+        :deliveryPrice="seller.deliveryPrice"
+        :minPrice="seller.minPrice"
+      ></shop-cart>
     </div>
   </div>
 </template>
@@ -70,8 +79,10 @@ import { getGoods } from 'api'
 import SupportIco from 'components/support-ico/support-ico'
 import Bubble from 'components/bubble/bubble'
 import CartControl from 'components/cart-controll/cart-controll'
+import ShopCart from 'components/shop-cart/shop-cart'
 
 export default {
+  name: 'goods',
   props: {
     data: {
       type: Object,
@@ -82,12 +93,27 @@ export default {
   },
   data () {
     return {
-      goods: []
+      goods: [],
+      scrollOptions: {
+        click: false,
+        directionLockThreshold: 0
+      }
     }
   },
   computed: {
     seller () {
       return this.data.seller
+    },
+    selectFoods () {
+      let foods = []
+      this.goods.forEach(good => {
+        good.foods.forEach(food => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     },
     barTxts () {
       let ret = []
@@ -116,18 +142,23 @@ export default {
           this.goods = goods
         })
       }
+    },
+    onAdd (target) {
+      this.$refs.shopCart.drop(target)
     }
   },
   components: {
     SupportIco,
     Bubble,
-    CartControl
+    CartControl,
+    ShopCart
   }
 }
 </script>
 
 <style lang="stylus" scoped>
 @import '~common/stylus/variable'
+@import '~common/stylus/mixin'
 
 .goods
   position relative
@@ -215,4 +246,15 @@ export default {
             text-decoration line-through
             font-size $fontsize-small-s
             color $color-light-grey
+      .cart-control-wrapper
+        position absolute
+        right 0
+        bottom 12px
+  .shop-cart-wrapper
+    position absolute
+    left 0
+    bottom 0
+    z-index 50
+    width 100%
+    height 48px
 </style>

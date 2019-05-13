@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '../../common/stylus/mixin'
+@import '~common/stylus/mixin'
 
 .star
   display flex

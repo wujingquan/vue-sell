@@ -5,6 +5,7 @@
         <span class="inner icon-remove_circle_outline"></span>
       </div>
     </transition>
+    <div class="cart-count" v-show="food.count > 0">{{ food.count }}</div>
     <div class="cart-add icon-add_circle" @click.stop="add"></div>
   </div>
 </template>
@@ -13,6 +14,7 @@
 const EVENT_ADD = 'add'
 
 export default {
+  name: 'cart-control',
   props: {
     food: {
       type: Object
@@ -52,6 +54,14 @@ export default {
       font-size $fontsize-large-xxx
       color $color-blue
       transition all 0.4s linear
+      transform rotate(0)
+    &.move-enter-active, &.move-leave-active
+      transition all 0.4s linear
+    &.move-enter, &.move-leave-active
+      opacity 0
+      transform translate3d(24px, 0, 0)
+      .inner
+        transform rotate(180deg)
   .cart-count
     width 12px
     line-height 24px

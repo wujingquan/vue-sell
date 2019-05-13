@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../common/stylus/mixin'
+@import '~common/stylus/mixin'
 
 .food
   position fixed
