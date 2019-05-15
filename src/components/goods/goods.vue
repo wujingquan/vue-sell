@@ -40,6 +40,7 @@
               class="food-item"
               v-for="food in good.foods"
               :key="food.name"
+              @click="selectFood(food)"
             >
               <div class="icon">
                 <img width="57" height="57" :src="food.icon" alt="">
@@ -78,7 +79,7 @@
 import { getGoods } from 'api'
 import SupportIco from 'components/support-ico/support-ico'
 import Bubble from 'components/bubble/bubble'
-import CartControl from 'components/cart-controll/cart-controll'
+import CartControl from 'components/cart-control/cart-control'
 import ShopCart from 'components/shop-cart/shop-cart'
 
 export default {
@@ -143,8 +144,21 @@ export default {
         })
       }
     },
+    selectFood (food) {
+      console.log(food);
+      this.selectedFood = food
+      this._showFood()
+    },
     onAdd (target) {
       this.$refs.shopCart.drop(target)
+    },
+    _showFood () {
+      this.foodComp = this.foodComp || this.$createFood({
+        $props: {
+          food: 'selectedFood'
+        }
+      })
+      this.foodComp.show()
     }
   },
   components: {
