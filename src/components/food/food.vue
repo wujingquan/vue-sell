@@ -154,6 +154,12 @@ export default {
   z-index 30
   width 100%
   background $color-white
+  &.move-enter-active, &.move-leave-active
+    transition all 0.3s linear
+  // &.move-enter, &.move-leave-to
+  //   transform translate3d(100%, 0, 0)
+  &.move-enter
+    transform translateX(100%)
   .image-header
     position relative
     width 100%

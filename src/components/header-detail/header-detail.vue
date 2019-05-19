@@ -29,31 +29,20 @@
 </template>
 
 <script>
+import popupMixin from 'common/mixins/popup'
 import SupportIco from 'components/support-ico/support-ico'
 import Star from 'components/star/star'
 import VTitle from 'components/v-title/v-title'
 
 export default {
   name: 'header-detail',
+  mixins: [popupMixin],
   props: {
     seller: {
       type: Object,
       default () {
         return {}
       }
-    }
-  },
-  data () {
-    return {
-      visible: true
-    }
-  },
-  methods: {
-    show () {
-      this.visible = true
-    },
-    hide () {
-      this.visible = false
     }
   },
   components: {

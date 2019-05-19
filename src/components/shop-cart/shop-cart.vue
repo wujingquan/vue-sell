@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="shopcart">
-      <div class="content">
+      <div class="content" @click="toggleList">
         <div class="content-left">
           <div class="logo-wrapper">
             <div class="logo" :class="{ 'highlight': totalCount > 0 }">
@@ -65,11 +65,20 @@ export default {
     minPrice: {
       type: Number,
       default: 0
+    },
+    sticky: {
+      type: Boolean,
+      default: false
+    },
+    fold: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
     return {
-      balls: createBalls()
+      balls: createBalls(),
+      listFold: this.fold
     }
   },
   created () {
@@ -109,8 +118,18 @@ export default {
     }
   },
   methods: {
+    toggleList () {
+      if (this.listFold) {
+        if (!this.totalCount) return
+        this.listFold = false
+        this._showShopCartList()
+        this._showShopCartSticky()
+      } else {
+        this.listFold = true
+        this._hideShopCartList()
+      }
+    },
     drop (el) {
-      console.log(el)
       for (let ball of this.balls) {
         if (!ball.show) {
           ball.show = true
@@ -143,7 +162,53 @@ export default {
         ball.show = false
         el.style.display = 'none'
       }
+    },
+    _showShopCartSticky() {
+      this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+        $props: {
+          selectFoods: 'selectFoods',
+          deliveryPrice: 'deliveryPrice',
+          minPrice: 'minPrice',
+          fold: 'listFold',
+          list: this.shopCartListComp
+        }
+      })
+      this.shopCartStickyComp.show()
+    },
+    _showShopCartList () {
+      this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
+        $props: {
+          selectFoods: 'selectFoods'
+        },
+        $events: {
+          leave: () => {
+
+          },
+          hide: () => {
+
+          },
+          add: (el) => {
+
+          }
+        }
+      })
+      this.shopCartListComp.show()
+    },
+    _hideShopCartList () {
+      const list = this.sticky ? this.$parent.list : this.shopCartListComp
+      console.log('debug', this.sticky, this.$parent, list)
+      list.hide && list.hide()
     }
+  },
+  watch: {
+    fold (newVal) {
+      this.listFold = newVal
+    },
+    totalCount(count) {
+        if (!this.fold && count === 0) {
+          this._hideShopCartList()
+        }
+      }
   },
   components: {
     Bubble
