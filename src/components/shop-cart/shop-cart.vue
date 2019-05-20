@@ -14,7 +14,7 @@
           <div class="price">&yen;{{ totalPrice }}</div>
           <div class="desc">另需配送费&yen;{{ deliveryPrice }}元</div>
         </div>
-        <div class="content-right">
+        <div class="content-right" @click="pay">
           <div class="pay" :class="payCls" v-html="payDesc"></div>
         </div>
       </div>
@@ -128,6 +128,16 @@ export default {
         this.listFold = true
         this._hideShopCartList()
       }
+    },
+    pay (e) {
+      if (this.totalPrice < this.minPrice) {
+        return
+      }
+      this.$createDialog({
+        title: '支付',
+        content: `您需要支付${this.totalPrice}元`
+      }).show()
+      e.stopPropagation()
     },
     drop (el) {
       for (let ball of this.balls) {
