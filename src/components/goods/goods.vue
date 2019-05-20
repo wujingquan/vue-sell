@@ -72,6 +72,7 @@
         :minPrice="seller.minPrice"
       ></shop-cart>
     </div>
+    <div class="test" @click="test"></div>
   </div>
 </template>
 
@@ -134,6 +135,9 @@ export default {
     }
   },
   methods: {
+    test () {
+      console.log('test')
+    },
     fetch () {
       if (!this.fetched) {
         this.fetched = true
@@ -293,4 +297,12 @@ export default {
     z-index 50
     width 100%
     height 48px
+.test
+  width: 50px;
+  height: 50px;
+  background: #f00;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
 </style>

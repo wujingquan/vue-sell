@@ -10,6 +10,5 @@ common
 
 components
   bubble => y
-  cart-control
+  cart-control => y
   food
-  
