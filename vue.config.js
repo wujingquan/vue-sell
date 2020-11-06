@@ -5,8 +5,11 @@ const ratings = mockData.ratings
 
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
+const basePath = '/vue2-sell'
 
 module.exports = {
+  baseUrl: basePath,
+  publicPath: basePath,
   chainWebpack (config) {
     config.resolve.alias
       .set('components', resolve('src/components'))

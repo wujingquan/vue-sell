@@ -70,6 +70,7 @@ import { formatDate } from 'common/js/date'
 
 const ERR_OK = 0
 const ALL = 2
+const DEBUG = process.env.NODE_ENV !== 'production'
 
 export default {
   props: {
@@ -85,7 +86,7 @@ export default {
     }
   },
   created () {
-    axios.get('/api/ratings')
+    axios.get(DEBUG ? '/api/ratings' : `${process.env.BASE_URL}api/ratings`)
       .then(res => {
         if (res.data.errno === ERR_OK) {
           this.ratings = res.data.data

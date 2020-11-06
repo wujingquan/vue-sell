@@ -25,6 +25,7 @@ import axios from 'axios'
 import { urlParse } from 'common/js/util'
 
 const ERR_OK = 0
+const DEBUG = process.env.NODE_ENV !== 'production'
 
 export default {
   name: 'app',
@@ -39,7 +40,7 @@ export default {
     }
   },
   created () {
-    axios.get('/api/seller')
+    axios.get(DEBUG ? '/api/seller' : `${process.env.BASE_URL}api/seller`)
       .then(res => {
         if (res.data.errno === ERR_OK) {
           this.seller = res.data.data

@@ -50,6 +50,7 @@ import Cartcontrol from 'components/cartcontrol/cartcontrol'
 import Food from 'components/food/food'
 
 const ERR_OK = 0
+const DEBUG = process.env.NODE_ENV !== 'production'
 
 export default {
   props: {
@@ -96,7 +97,7 @@ export default {
   created () {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     
-    axios.get('/api/goods')
+    axios.get(DEBUG ? '/api/goods' : `${process.env.BASE_URL}api/goods`)
       .then(res => {
         if (res.data.errno === ERR_OK) {
           this.goods = res.data.data
